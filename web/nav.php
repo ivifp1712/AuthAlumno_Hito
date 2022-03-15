@@ -1,4 +1,5 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <style>
         @import url('https://fonts.googleapis.com/css?family=Numans');
         html,body{
@@ -11,7 +12,7 @@
         nav{
             background-color: black;
             padding: 25px;
-            height: 10%;
+            height: auto;
         }
         nav a {
             text-decoration: none;
@@ -26,7 +27,7 @@
             margin-top:5px;
         }
         body{
-            background-image: url("../imgs/fondo.jpg"), url("./imgs/fondo.jpg");
+            background-image: url("../imgs/fondo.jpg"), url("../imgs/fondo.jpg");
             background-repeat: no-repeat;
             background-size: cover;
         }
@@ -44,20 +45,20 @@
         }
     </style>
     <nav>
-        <img src="imgs/icon.png" style="width: 75px;">
-        <a href="index.php">Inicio</a>
+        <img src="../imgs/icon.png" style="width: 75px;">
+        <a href="../index.php">Inicio</a>
         <?php
             if (isset($_SESSION["user"])) {
-                echo('<a href="web/alumno.php">Alumno</a><a href="web/crud.php">Administrador</a>');
+                echo('<a href="alumno.php">Alumno</a><a href="crud.php">Administrador</a>');
             }else{
-                echo('<a href="web/signup.php">Registrarse</a><a href="web/login.php">Log In</a>');
+                echo('<a href="signup.php">Registrarse</a><a href="login.php">Log In</a>');
             }
         ?>   
         <div class="login">
             <?php
            
             if (isset($_SESSION["user"])) {
-                require_once("web/conectar.php");
+                require_once("conectar.php");
                 function sacarDatoss($dato)
                 {
                     global $mysqli;
@@ -69,16 +70,20 @@
                     return $row[$dato];
                 }
                 echo('<div>');
-                echo('<img src="'.sacarDatoss("avatar").'" class="login perfil">');
+                if (sacarDatoss("avatar") == "imgs/perfil.png") {
+                    echo('<img src="../'.sacarDatoss("avatar").'" class="login perfil">');
+                }else{
+                    echo('<img src="'.sacarDatoss("avatar").'" class="login perfil">');
+                }
                 echo('<p class="login" style = "color:red; height: 50px">Hi, '.sacarDatoss("username").'!');
                 echo('<button class="btn btn-block btn-secondary logout" id="logOut" style="width: 100px"><i class="fa fa-sign-out"></i><span>Logout</span></button>');
                 echo("</div>");
-                echo('<script>document.getElementById("logOut").addEventListener("click", function(e) {console.log("logOUT");window.location.href = "web/logout.php";})</script>');
+                echo('<script>document.getElementById("logOut").addEventListener("click", function(e) {console.log("logOUT");window.location.href = "logout.php";})</script>');
                 
 
             }else{
                 echo('<button class="btn btn-success btn-block" id="login"> Log In </button> ');
-                echo(' <script>document.getElementById("login").addEventListener("click", function(e) {window.location.href = "web/login.php";})</script> ');
+                echo(' <script>document.getElementById("login").addEventListener("click", function(e) {window.location.href = "login.php";})</script> ');
             }
             ?>
         </div>

@@ -9,7 +9,7 @@
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="shortcut icon" href="imgs/icon.png" type="image/x-icon">
+  <link rel="shortcut icon" href="../imgs/icon.png" type="image/x-icon">
   <style>
     .toggle{
       width: 50px;
@@ -37,7 +37,7 @@
   <?php
     session_start();
     if ($_SESSION["rol"] != 1) {
-      header("Location: err/nopermise.php");
+      header("Location: ../err/nopermise.php");
     }
 require_once("nav.php");
 ?>
@@ -51,7 +51,7 @@ require_once("nav.php");
         } 
   body{
     margin-bottom: 0;
-    background-image: url('imgs/fondo.jpg') !important;
+    background-image: url('../imgs/fondo.jpg') !important;
     background-repeat: no-repeat;
     background-size: cover !important;
     backdrop-filter: blur(3px);
@@ -59,26 +59,27 @@ require_once("nav.php");
 </style>
   <script>
                   function cDatos(v) {
-                    ////console.log("cacatua",v);
-                    let request = $.ajax({
-                        url: "cdatos.php",
-                        type: "post",
-                        data: { id: v},
-                        success: function(data){
-                            document.getElementById("form-usuario").innerHTML = data;
-                        }
-                      })
+                    axios({
+                    method: 'post',
+                    url: 'cdatos.php',
+                    data: {
+                      id: v,
+                    }
+                    }).then(function (response) {
+                      let data = response.data;
+                      document.getElementById("form-usuario").innerHTML = data;
+                    });
                   }
                 </script>
 
 <?php
   if (isset($_GET["exito"])) {
-    echo('<div style="display: inline-block; width: 50%; position: relative; top: 10px; left: 25%;border: 1px solid #ccc;z-index: 15; background-color: #fff; padding-left: 5px; padding-top: 5px; margin-bottom: 25px;" id="exito"><p><img src="imgs/check-solid.svg" style="width: 20px; margin-right: 15px; margin-left: 15px;"> Cambio realizado!</p></div>');
+    echo('<div style="display: inline-block; width: 50%; position: relative; top: 10px; left: 25%;border: 1px solid #ccc;z-index: 15; background-color: #fff; padding-left: 5px; padding-top: 5px; margin-bottom: 25px;" id="exito"><p><img src="../imgs/check-solid.svg" style="width: 20px; margin-right: 15px; margin-left: 15px;"> Cambio realizado!</p></div>');
     echo('<script>document.getElementById("exito").style.animation = "opac 2s"; setTimeout(function(){document.getElementById("exito").style.animation = "ropac 2s"; setTimeout(function(){document.getElementById("exito").style.display = "none" }, 2000) }, 4000);</script>');
     
   }
   if (isset($_GET["error"])) {
-    echo('<div style="display: inline-block; width: 50%; position: relative; top: 10px; left: 25%;border: 1px solid #ccc;z-index: 15; background-color: #fff; padding-left: 5px; padding-top: 5px; margin-bottom: 25px;" id="error"><p><img src="imgs/xmark-solid.svg" style="width: 20px; margin-right: 15px; margin-left: 15px;"> Error en el registro!</p></div>');
+    echo('<div style="display: inline-block; width: 50%; position: relative; top: 10px; left: 25%;border: 1px solid #ccc;z-index: 15; background-color: #fff; padding-left: 5px; padding-top: 5px; margin-bottom: 25px;" id="error"><p><img src="../imgs/xmark-solid.svg" style="width: 20px; margin-right: 15px; margin-left: 15px;"> Error en el registro! Comprueba que no se introduce ningun valor repetido.</p></div>');
     echo('<script>document.getElementById("error").style.animation = "opac 2s"; setTimeout(function(){document.getElementById("error").style.animation = "ropac 2s"; setTimeout(function(){document.getElementById("error").style.display = "none" }, 2000) }, 4000);</script>');
     
   }
@@ -124,40 +125,42 @@ require_once("nav.php");
                     
                     
                     function toggle(v) {
-                      let activo = `<img src="imgs/toggle-on-solid.svg" class="toggle">`;
-                      let noActivo = `<img src="imgs/toggle-off-solid.svg" class="toggle">`;
+                      let activo = `<img src="../imgs/toggle-on-solid.svg" class="toggle">`;
+                      let noActivo = `<img src="../imgs/toggle-off-solid.svg" class="toggle">`;
                       
-                      let request = $.ajax({
-                        url: "crol.php",
-                        type: "post",
-                        data: { id: v},
-                        success: function(data){
-                            //console.log(data);
+                        axios({
+                        method: 'post',
+                        url: 'crol.php',
+                        data: {
+                          id: v,
+                        }
+                        }).then(function (response) {
+                            let data = response.data;
                             let id = data.substring(2, data.length);
                             //console.log(id);
-                            let cambio = data.substring(0, data.length - (data.length - 1));
-                            //console.log(cambio);
-                            if(cambio == "0"){
-                              document.getElementById(id).innerHTML = noActivo;
-                            }else{
-                              document.getElementById(id).innerHTML = activo;
-                            }
-                            
-                        }
-                      })
+                              //console.log(id);
+                              let cambio = data.substring(0, data.length - (data.length - 1));
+                              //console.log(cambio);
+                              if(cambio == "0"){
+                                document.getElementById(id).innerHTML = `<img src="../imgs/toggle-off-solid.svg" class="toggle">`;
+                              }else{
+                                //console.log(document);
+                                document.getElementById(id).innerHTML = `<img src="../imgs/toggle-on-solid.svg" class="toggle">`;
+                              }
+                        });
                     }
-
                    
                     function borrar(v) {
                       //console.log(1)
-                      let request = $.ajax({
-                        url: "borrar.php",
-                        type: "post",
-                        data: { id: v},
-                        success: function(data){
-                          exito();
-                        }
-                      })
+                      axios({
+                      method: 'post',
+                      url: 'borrar.php',
+                      data: {
+                        id: v,
+                      }
+                      }).then(function (response) {
+                        exito();
+                      });
                     }
             
                   </script>
@@ -172,14 +175,18 @@ require_once("nav.php");
                       
                       // Indices en orden introducido
                       $pasar = 0;
-                      $activo = '<img src="imgs/toggle-on-solid.svg" class="toggle">';
-                      $noActivo = '<img src="imgs/toggle-off-solid.svg" class="toggle">';
+                      $activo = '<img src="../imgs/toggle-on-solid.svg" class="toggle">';
+                      $noActivo = '<img src="../imgs/toggle-off-solid.svg" class="toggle">';
                       foreach ($row as $i) {
                           
                           echo("<tr>");
                           echo('<td class="align-middle text-center">');
                           echo('<div class="bg-light d-inline-flex justify-content-center align-items-center align-top" style="width: 35px; height: 35px; border-radius: 3px;">');
-                          echo('<img src="'.$i[0].'" class="avatar"');
+                          if ($i[0] == "imgs/perfil.png") {
+                              echo('<img src="../'.$i[0].'" class="avatar"');
+                          }else{
+                            echo('<img src="'.$i[0].'" class="avatar"');
+                          }
                           echo("</div>");
                           echo('<td class="text-nowrap align-middle">'.$i[1].'</td>');
                           echo('<td class="text-nowrap align-middle">'.$i[2].'</td>');
@@ -188,9 +195,9 @@ require_once("nav.php");
                             $pasar = 1;
                           }
                         if ($i[4] == "0") {
-                          echo('<td class="text-center align-middle" id="'.$i[5].'" onclick="toggle('.$i[5].');"> <img src="imgs/toggle-off-solid.svg" class="toggle"></td>');
+                          echo('<td class="text-center align-middle" id="'.$i[5].'" onclick="toggle('.$i[5].');"> <img src="../imgs/toggle-off-solid.svg" class="toggle"></td>');
                         } else {
-                          echo('<td class="text-center align-middle" id="'.$i[5].'" onclick="toggle('.$i[5].');"> <img src="imgs/toggle-on-solid.svg" class="toggle"></td>');
+                          echo('<td class="text-center align-middle" id="'.$i[5].'" onclick="toggle('.$i[5].');"> <img src="../imgs/toggle-on-solid.svg" class="toggle"></td>');
                         }
                         
                           
@@ -250,9 +257,62 @@ require_once("nav.php");
         </div>
       </div>
     </div>
-
+    <script>
+      function comprobar(valor, tipo) {
+    var tipo = tipo;
+    function responseD(data) {
+        if (data != 0) {
+                document.getElementById(tipo).style.borderColor = "#dc3545";
+                document.getElementById(tipo).style.backgroundImage = "url(../imgs/descarga1.svg)";
+                document.getElementById(tipo).style.paddingRight = "calc(1.5em + .75rem)";
+                document.getElementById(tipo).style.backgroundRepeat = "no-repeat";
+                document.getElementById(tipo).style.backgroundPosition = "right calc(0.375em + 0.1875rem) center"; 
+                document.getElementById(tipo).style.backgroundSize = "calc(.75em + .375rem) calc(.75em + .375rem)";
+                //document.getElementById("valid-"+tipo).style.display = "none";
+                //document.getElementById("invalid-"+tipo).style.display = "block";
+            }else{
+                document.getElementById(tipo).style.borderColor = "#198754";
+                document.getElementById(tipo).style.backgroundImage = "url(../imgs/descarga.svg)";
+                document.getElementById(tipo).style.paddingRight = "calc(1.5em + .75rem)";
+                document.getElementById(tipo).style.backgroundRepeat = "no-repeat";
+                document.getElementById(tipo).style.backgroundPosition = "right calc(0.375em + 0.1875rem) center"; 
+                document.getElementById(tipo).style.backgroundSize = "calc(.75em + .375rem) calc(.75em + .375rem)";
+                // document.getElementById("valid-"+tipo).style.display = "block";
+                // document.getElementById("invalid-"+tipo).style.display = "none";
+              
+      }}
+    if (tipo == "usuario") {
+      //var pasar = {"us": valor}
+      axios({
+      method: 'post',
+      url: 'existe.php',
+      data: {
+        us: valor,
+      }
+      }).then(function (response) {
+        //console.log(response.data);
+        responseD(response.data);
+      });
+      
+    } else {
+      //var pasar = {"ma": valor}
+      axios({
+      method: 'post',
+      url: 'existe.php',
+      data: {
+        ma: valor,
+      }
+      }).then(function (response) {
+        responseD(response.data);
+      });
+    }
+    //var contra = valor;
+    //console.log(valor)
+      
+  }
+    </script>
     <!-- User Form Modal -->
-    <div class="modal fade" role="dialog" tabindex="-1" id="user-form-modal">
+    <div class="modal fade" role="dialog" tabindex="-1" id="user-form-modal" style="height: 800px;">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -274,7 +334,7 @@ require_once("nav.php");
                 window.location.href = "vuelta2.php";
               } 	
               function error() {
-                window.location.href = "err/vuelta2.php";
+                window.location.href = "../err/vuelta2.php";
               }
               
             </script>
@@ -286,15 +346,6 @@ require_once("nav.php");
             $password = $_POST['pass'];
             $email = $_POST['email'];
             $pasar = 0;
-            // $lemail = str_split($email);
-            // foreach ($lemail as $a) {
-            //   if ($a == "@") {
-            //     $pasar == 1; 
-            //   }
-            // }
-            // if ($pasar == 0) {
-            //   throw new customException($email);
-            // }
             $nombre = $_POST['nombre'];
             $admin = "0";
             //echo var_dump($password);
@@ -314,11 +365,53 @@ require_once("nav.php");
             echo "<br>";
             echo "<h3> Error en resgistro.</h3>";
             echo "<p> Algún dato introducido es incorrecto</p>";
+            echo "<script> window.location.href = 'crud.php?error=true' </script>";
           } catch (customException $e){
               echo('<script>error()</script>');
-
+              echo "<script> window.location.href = 'crud.php?error=true' </script>";
           }
            
+        }else{
+              if (isset($_POST['name']) && $_POST['name'] != "") {
+                $stmt = $mysqli->prepare("UPDATE usuarios set nombre = ? WHERE id = ?");
+                $stmt->bind_param("ss", $_POST["name"],$_POST["id"]);
+                $stmt->execute();
+                echo "<sript>exito('username')</sript>"; 
+              }
+              if (isset($_POST['username']) && $_POST['username'] != "") {
+                try { 
+                  $stmt = $mysqli->prepare("UPDATE usuarios set username = ? WHERE id = ?");
+                  $stmt->bind_param("ss", $_POST["username"],$_POST["id"]);
+                  $stmt->execute();
+                  echo "<script>exito('username')</script>";
+                }catch (mysqli_sql_exception $e){
+                  echo "<script> window.location.href = 'crud.php?error=true' </script>";
+                }
+              }
+              if (isset($_POST['email']) && $_POST['email'] != "") {
+                try { 
+                  $stmt = $mysqli->prepare("UPDATE usuarios set email = ? WHERE id = ?");
+                  $stmt->bind_param("ss", $_POST["email"],$_POST["id"]);
+                  $stmt->execute();
+                  echo "<script>exito('email')</script>";
+                }catch (mysqli_sql_exception $e){
+                  echo "<script> window.location.href = 'crud.php?error=true' </script>";
+                }
+              }
+
+              if (isset($_POST['password']) && $_POST['password'] != "") {
+                $pass = password_hash($_POST['password'],PASSWORD_DEFAULT,['cost' => 5]);
+                $stmt = $mysqli->prepare("UPDATE usuarios set password = ? WHERE id = ?");
+                $stmt->bind_param("ss", $pass,$_POST["id"]);
+                $stmt->execute();
+                echo "<script>exito('password')</script>";
+              }
+              if (isset($_POST['avatar']) && $_POST['avatar'] != "") {
+                $stmt = $mysqli->prepare("UPDATE usuarios set avatar = ? WHERE id = ?");
+                $stmt->bind_param("ss", $_POST["avatar"],$_POST["id"]);
+                $stmt->execute();
+                echo "<script>exito('avatar')</script>";
+              }
         }
         ?>
             </div>

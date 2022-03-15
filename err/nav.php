@@ -53,7 +53,7 @@
             <?php
            
             if (isset($_SESSION["user"])) {
-                require_once("conectar.php");
+                require_once("../web/conectar.php");
                 function sacarDatoss($dato)
                 {
                     global $mysqli;
@@ -74,7 +74,7 @@
 
             }else{
                 echo('<button class="btn btn-success btn-block" id="login"> Log In </button> ');
-                echo(' <script>document.getElementById("login").addEventListener("click", function(e) {window.location.href = "login.php";})</script> ');
+                echo(' <script>document.getElementById("login").addEventListener("click", function(e) {window.location.href = "../web/login.php";})</script> ');
             }
             ?>
         </div>

@@ -9,7 +9,7 @@
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="shortcut icon" href="imgs/icon.png" type="image/x-icon">
+  <link rel="shortcut icon" href="../imgs/icon.png" type="image/x-icon">
 
 </head>
 <body>
@@ -53,15 +53,15 @@
 ?>
 <script>
   function borrar(v){
-    //console.log(1)
-     let request = $.ajax({
-        url: "borrar.php",
-        type: "post",
-        data: { id: v},
-        success: function(data){
-          exito();
-        }
-   })
+      axios({
+      method: 'post',
+      url: 'borrar.php',
+      data: {
+        id: v,
+      }
+      }).then(function (response) {
+        exito();
+      });
   }
   
 </script>
@@ -82,7 +82,7 @@ require_once("nav.php");
         } 
   body{
     margin-bottom: 0;
-    background-image: url('imgs/fondo.jpg') !important;
+    background-image: url('../imgs/fondo.jpg') !important;
     background-repeat: no-repeat;
     background-size: cover !important;
     backdrop-filter: blur(3px);
@@ -120,7 +120,12 @@ require_once("nav.php");
                   <div class="mx-auto" style="width: 140px; background-color:transparent;">
 				  <script>
 							function quitarFto(s) {
-								document.getElementById("fto-div").innerHTML = '<img src="'+s+'" alt="Foto Usuario" style="width: 140px; height: 140px; border-radius:75%" id="fto-usuario">'
+                if (s == "imgs/perfil.png") {
+                  document.getElementById("fto-div").innerHTML = '<img src="../'+s+'" alt="Foto Usuario" style="width: 140px; height: 140px; border-radius:75%" id="fto-usuario">'
+
+                }else{
+                  document.getElementById("fto-div").innerHTML = '<img src="'+s+'" alt="Foto Usuario" style="width: 140px; height: 140px; border-radius:75%" id="fto-usuario">'
+                }
 							}
 						</script>
                     <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px;" id="fto-div">
@@ -267,7 +272,7 @@ require_once("nav.php");
                     </div>
                     <div class="row">
                       <div class="col d-flex justify-content-end">
-                        <button class="btn btn-primary" type="submit">Save Changes</button>
+                        <button class="btn btn-primary" type="submit">Guardar Cambios</button>
                       </div>
                     </div>
                   </form>
@@ -332,10 +337,7 @@ require_once("nav.php");
 </div>
 <script>
 	function exito(v) {
-		mensaje = "Cambio realizado con éxito en "+v+"!";
-		document.getElementById("datos").innerHTML += "<p>"+mensaje+"</p>";
-    document.cookie = "exito=1";
-		window.location.href = "vuelta.php";
+		  window.location.href = "vuelta.php";
 	}
   function duplicado(){
 
@@ -358,7 +360,7 @@ require_once("nav.php");
 		$stmt = $mysqli->prepare("UPDATE usuarios set username = ? WHERE id = ?");
 		$stmt->bind_param("ss", $_POST["username"],$id);
 		$stmt->execute();
-		echo "<sript>exito('username')</sript>";
+		echo "<script>exito('username')</script>";
 	}
   if (isset($_POST['password']) && $_POST['password'] != "") {
 		$id = sacarDatos("id");

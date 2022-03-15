@@ -1,4 +1,7 @@
 <?php
+$request_body = file_get_contents('php://input');
+$post = json_decode($request_body, true);
+$_POST = $post;
    if (isset($_POST["us"])) {
     require_once("conectar.php");
     $us = $_POST["us"];

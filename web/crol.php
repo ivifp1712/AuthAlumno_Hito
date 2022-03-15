@@ -1,5 +1,8 @@
 <?php
 require_once("conectar.php");
+$request_body = file_get_contents('php://input');
+$post = json_decode($request_body, true);
+$_POST = $post;
 function sacarDatos()
 	{
 		global $mysqli;

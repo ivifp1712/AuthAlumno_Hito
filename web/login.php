@@ -90,7 +90,8 @@
 							$row = $result->fetch_array(MYSQLI_ASSOC);
 							$_SESSION["id"] = $row["id"];
 							//echo $_SESSION["user"];
-                            header("Location: alumno.php");
+							echo("<script> window.location.href = 'alumno.php'</script>");
+                            //header("Location: alumno.php");
 							
                         }
                     }

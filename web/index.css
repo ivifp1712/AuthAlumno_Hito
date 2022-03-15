@@ -2,10 +2,10 @@
 
 html,body{
     margin: 0;
-background-image: url('imgs/fondo.jpg');
-background-size: cover;
-background-repeat: no-repeat;
-font-family: 'Numans', sans-serif;
+    background-image: url('imgs/fondo.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: 'Numans', sans-serif;
 }
 
 .container{

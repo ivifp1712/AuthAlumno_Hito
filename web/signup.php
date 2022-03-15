@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 <script src="https://kit.fontawesome.com/d70d441cb5.js" crossorigin="anonymous"></script>
-<link rel="shortcut icon" href="imgs/icon.png" type="image/x-icon">
+<link rel="shortcut icon" href="../imgs/icon.png" type="image/x-icon">
 
 </head>
 <body>
@@ -28,46 +28,63 @@
 <script src="https://code.jquery.com/jquery-3.5.0.js""></script>
 <script>
   function comprobar(valor, tipo) {
-    
+    var tipo = tipo;
+    function responseD(data) {
+        if (data != 0) {
+                document.getElementById(tipo).style.borderColor = "#dc3545";
+                document.getElementById(tipo).style.backgroundImage = "url(../imgs/descarga1.svg)";
+                document.getElementById(tipo).style.paddingRight = "calc(1.5em + .75rem)";
+                document.getElementById(tipo).style.backgroundRepeat = "no-repeat";
+                document.getElementById(tipo).style.backgroundPosition = "right calc(0.375em + 0.1875rem) center"; 
+                document.getElementById(tipo).style.backgroundSize = "calc(.75em + .375rem) calc(.75em + .375rem)";
+                document.getElementById("valid-"+tipo).style.display = "none";
+                document.getElementById("invalid-"+tipo).style.display = "block";
+            }else{
+                document.getElementById(tipo).style.borderColor = "#198754";
+                document.getElementById(tipo).style.backgroundImage = "url(../imgs/descarga.svg)";
+                document.getElementById(tipo).style.paddingRight = "calc(1.5em + .75rem)";
+                document.getElementById(tipo).style.backgroundRepeat = "no-repeat";
+                document.getElementById(tipo).style.backgroundPosition = "right calc(0.375em + 0.1875rem) center"; 
+                document.getElementById(tipo).style.backgroundSize = "calc(.75em + .375rem) calc(.75em + .375rem)";
+                document.getElementById("valid-"+tipo).style.display = "block";
+                document.getElementById("invalid-"+tipo).style.display = "none";
+              
+      }}
     if (tipo == "usuario") {
-      var pasar = {"us": valor}
+      //var pasar = {"us": valor}
+      axios({
+      method: 'post',
+      url: 'existe.php',
+      data: {
+        us: valor,
+      }
+      }).then(function (response) {
+        //console.log(response.data);
+        responseD(response.data);
+      });
       
     } else {
-      var pasar = {"ma": valor}
+      //var pasar = {"ma": valor}
+      axios({
+      method: 'post',
+      url: 'existe.php',
+      data: {
+        ma: valor,
+      }
+      }).then(function (response) {
+        responseD(response.data);
+      });
     }
-    var contra = valor;
+    //var contra = valor;
     //console.log(valor)
-    let request = $.ajax({
-        url: "existe.php",
-        type: "post",
-        data: pasar,
-        success: function(data){
-            //console.log(data);
-            if (data != 0) {
-              document.getElementById(tipo).style.borderColor = "#dc3545";
-              document.getElementById(tipo).style.backgroundImage = "url(imgs/descarga1.svg)";
-              document.getElementById(tipo).style.paddingRight = "calc(1.5em + .75rem)";
-              document.getElementById(tipo).style.backgroundRepeat = "no-repeat";
-              document.getElementById(tipo).style.backgroundPosition = "right calc(0.375em + 0.1875rem) center"; 
-              document.getElementById(tipo).style.backgroundSize = "calc(.75em + .375rem) calc(.75em + .375rem)";
-              document.getElementById("valid-"+tipo).style.display = "none";
-              document.getElementById("invalid"+tipo).style.display = "block";
-          }else{
-              document.getElementById(tipo).style.borderColor = "#198754";
-              document.getElementById(tipo).style.backgroundImage = "url(imgs/descarga.svg)";
-              document.getElementById(tipo).style.paddingRight = "calc(1.5em + .75rem)";
-              document.getElementById(tipo).style.backgroundRepeat = "no-repeat";
-              document.getElementById(tipo).style.backgroundPosition = "right calc(0.375em + 0.1875rem) center"; 
-              document.getElementById(tipo).style.backgroundSize = "calc(.75em + .375rem) calc(.75em + .375rem)";
-              document.getElementById("valid-"+tipo).style.display = "block";
-              document.getElementById("invalid-"+tipo).style.display = "none";
-            }}
-})
-}
-function repetir(v){
-    if (contra == v) {
-      document.getElementById("pass2").style.borderColor = "#198754";
-              document.getElementById("pass2").style.backgroundImage = "url(imgs/descarga.svg)";
+      
+  }
+            
+function checkpass(v){
+    let contra = document.getElementById("pass").value;
+    if (contra == v && contra == " " && contra == "") {
+              document.getElementById("pass2").style.borderColor = "#198754";
+              document.getElementById("pass2").style.backgroundImage = "url(../imgs/descarga.svg)";
               document.getElementById("pass2").style.paddingRight = "calc(1.5em + .75rem)";
               document.getElementById("pass2").style.backgroundRepeat = "no-repeat";
               document.getElementById("pass2").style.backgroundPosition = "right calc(0.375em + 0.1875rem) center"; 
@@ -76,7 +93,7 @@ function repetir(v){
               document.getElementById("invalid-pass").style.display = "none";
     }else{
               document.getElementById("pass2").style.borderColor = "#dc3545";
-              document.getElementById("pass2").style.backgroundImage = "url(imgs/descarga1.svg)";
+              document.getElementById("pass2").style.backgroundImage = "url(../imgs/descarga1.svg)";
               document.getElementById("pass2").style.paddingRight = "calc(1.5em + .75rem)";
               document.getElementById("pass2").style.backgroundRepeat = "no-repeat";
               document.getElementById("pass2").style.backgroundPosition = "right calc(0.375em + 0.1875rem) center"; 
@@ -88,7 +105,7 @@ function repetir(v){
 </script>
 <section class="vh-100">
   <div class="container h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100" style="margin-top: -100px !important">
+    <div class="row d-flex justify-content-center align-items-center h-100" style=" margin-left: 4px !important ;width: 100% !important;margin-right: 0px !important ;margin-top: -5% !important">
       <div class="col-lg-12 col-xl-11">
         <div class="card text-black" style="border-radius: 25px;">
           <div class="card-body p-md-5">
@@ -120,10 +137,10 @@ function repetir(v){
                     <div class="form-outline flex-fill mb-0">
                         <label class="form-label" for="form3Example3c">E-mail</label>
                         <input type="email" id="email" name="email" class="form-control" onkeyup="comprobar(this.value, 'email');"required>
-                        <div class="valid-feedback" id="valid-mail">
+                        <div class="valid-feedback" id="valid-email">
                           Nombre de email válido!
                         </div>
-                        <div class="invalid-feedback" id="invalid-mail">
+                        <div class="invalid-feedback" id="invalid-email">
                           Nombre de email registrado!
                         </div>
                     </div>
@@ -133,11 +150,11 @@ function repetir(v){
                     <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
                       <label class="form-label" for="form3Example4c">Contraseña</label>
-                      <input type="password" id="form3Example4c" class="form-control" name="pass" required/>
-                      <label class="form-label" for="form3Example4c">Repetir Contraseña</label>
-                      <input type="password" id="pass2" class="form-control" name="pass2" required/>
+                      <input type="password" id="pass" class="form-control" name="pass" required/>
+                      <label class="form-label" >Repetir Contraseña</label>
+                      <input type="password" id="pass2" class="form-control" name="pass2" onkeyup="checkpass(this.value)" required/>
                       <div class="valid-feedback" id="valid-pass">
-                          Contraseña válida!
+                          Contraseña correcta!
                         </div>
                         <div class="invalid-feedback" id="invalid-pass">
                           No se repite la contraseña!
