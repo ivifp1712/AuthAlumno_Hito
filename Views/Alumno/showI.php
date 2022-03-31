@@ -7,18 +7,19 @@
         <div class="col-md-5 border-right">
             <div class="p-3 py-5">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">Perfil:</h4>
+                    <h4 class="text-right">Cambiar perfil:</h4>
                 </div>
                 <div class="row mt-2">
                     <div class="col-md-6"><label class="labels">Nombre completo</label><input type="text" class="form-control" placeholder="<?php echo sacarDatoss("nombre"); ?>" name="name"></div>
                     <div class="col-md-6"><label class="labels">Username</label><input type="text" class="form-control"  placeholder="<?php echo sacarDatoss("username"); ?>" name="username"></div>
                     <div class="col-md-6"><label class="labels">Correo electronico</label><input type="email" class="form-control" placeholder="<?php echo sacarDatoss("email"); ?>" name="email"></div>
+                    <div class="col-md-6"><label class="labels">URL del nuevo avatar</label><input type="email" class="form-control" placeholder="<?php echo sacarDatoss("avatar"); ?>" name="foto"></div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-6"><label class="labels">Contraseña</label><input type="text" class="form-control" placeholder="••••••••" name="pass"></div>
-                    
                 </div>
-                <div class="mt-5 text-center"><input type="submit" class="btn btn-primary profile-button" type="button" value="Guardar Cambios"></input><input type="hidden" name="id" value="<?php echo $_SESSION['id']; ?>" /></form><form action="?controller=alumno&&action=delete" method="post"><button type="submit" class="btn btn-danger" style="margin-left: 1%;" ><i class="fas fa-trash-alt"></i>Eliminar usuario</button></div></form>
+                
+                <div class="mt-5 text-center"><input type="submit" class="btn btn-primary profile-button" type="button" value="Guardar Cambios"></input><input type="hidden" name="id" value="<?php echo $_SESSION['id']; ?>" /></form><form action="?controller=alumno&&action=delete" method="post" style="margin: 25px"><button type="submit" class="btn btn-danger" style="margin-left: 1%;" ><i class="fas fa-trash-alt"></i>Eliminar usuario</button></div></form>
                 <input type="hidden" name="id" value="<?php echo $_SESSION['id']; ?>" />
                 
             </div>

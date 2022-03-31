@@ -63,7 +63,7 @@
                       <th> Username</th>
                       <th class="max-width">Nombre Completo</th>
                       <th>E-mail</th>
-                      <th class="sortable">Fecha de inicio</th>
+                      <th class="sortable">Fecha de registro</th>
                       <th>Admin</th>
                       <th>Acciones</th>
                     </tr>
