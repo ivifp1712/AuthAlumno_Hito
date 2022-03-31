@@ -11,3 +11,5 @@ contraseña: ivi
 
 - Version Antigua con AJAX: branch version-antigua
 - Última version con AXIOS y mejoras en la interfaz: branch master
+
+En la rama MVC, se encuentra el modelo vista controlador de la aplicacion.
